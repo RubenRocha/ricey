@@ -44,6 +44,6 @@ Screenshots
 =======
 
 ![Linux](https://i.imgur.com/49Kpnbj.png)
-![OSX](https://i.imgur.com/Rtch7xn.png)
+![OSX](https://i.imgur.com/udgrPW2.png)
 ![BSD](https://i.imgur.com/bcRQ55W.png)
 ![Windows](https://i.imgur.com/jvntGUP.png)
