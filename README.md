@@ -39,6 +39,7 @@ Clone the repository
 Compile
 
     make
+    gmake --- on bsd
 
 Screenshots
 =======
