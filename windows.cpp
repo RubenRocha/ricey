@@ -9,7 +9,9 @@
 
 #include <stdio.h>
 #include <intrin.h>
+#include <regex>
 #include "functions.h"
+
 
 using namespace std;
 
@@ -35,22 +37,16 @@ char* get_cpu_brand()
         strncpy(pName, "Unknown Processor", 128);
     }
 
-        char * buff;
-        char rem[128];
-        buff = strtok (pName,"(RTM)");
-        while (buff != NULL)
-        {
-         strcat(rem, buff);
-         buff = strtok (NULL, "(RTM)");
-        }
+    char* final = (char*) malloc(128 * sizeof(char));
+    regex reg("\\(TM\\)|\\(R\\)");
 
-        //rem[0] = (const char[2])"\0";
-        memmove(rem, rem+1, strlen(rem));
+    if (regex_search(buf, reg)) {
+        final = strdup(regex_replace(pName, reg, "").c_str());
+    } else {
+        strncpy(final, pName, 128);
+    }
 
-        char* final = (char*) malloc(128 * sizeof(char));
-        strncpy(final, rem, 128);
-
-        return final;
+    return final;
 
 }
 

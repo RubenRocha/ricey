@@ -12,6 +12,7 @@
 #include <memstat.h>
 #include <X11/Xlib.h>
 #include <stdlib.h>
+#include <regex>
 
 using namespace std;
 
@@ -27,7 +28,14 @@ char* get_cpu_brand(void) {
         perror("sysctl");
     }
     
-    strncpy(brand, final, 128);
+    regex reg("\\(TM\\)|\\(R\\)");
+
+    if (regex_search(final, reg)) {
+        brand = strdup(regex_replace(final, reg, "").c_str());
+    } else {
+        strncpy(brand, final, 128);
+    }
+
     return brand;
 }
 

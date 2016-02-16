@@ -9,20 +9,30 @@
 #include <sys/utsname.h>
 #include <X11/Xlib.h>
 #include <pwd.h>
+#include <regex>
 
 using namespace std;
 
 char* get_cpu_brand() {
     FILE *cpuinf;
-    char* buffer;
-    buffer = (char*) malloc(128*sizeof(char));
+    char buffer[128];
 
     cpuinf = popen("/bin/cat /proc/cpuinfo | grep 'model name' | cut -d: -f2 | head -1", "r");
     fgets(buffer, 128, cpuinf);
     pclose(cpuinf);
     strtok(buffer, "\n");
 
-    return buffer;
+    char* final = (char*) malloc(128);
+    regex reg("\\(TM\\)|\\(R\\)");
+
+    if (regex_search(buffer, reg)) {
+        final = strdup(regex_replace(buffer, reg, "").c_str());
+    } else {
+        strncpy(buffer, final, 128);
+    }
+
+
+    return final;
 }
 
 float get_total_system_memory()

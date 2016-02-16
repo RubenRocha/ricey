@@ -10,6 +10,8 @@
 #import <CoreGraphics/CoreGraphics.h>
 #include <pwd.h>
 #import "display.h"
+#include <regex>
+
 
 
 using namespace std;
@@ -20,13 +22,20 @@ char* get_cpu_brand(void) {
     char final[128];
     size_t size_b = sizeof(final);
 
-
     if (sysctlbyname("machdep.cpu.brand_string", &final, &size_b, NULL, 0) < 0)
     {
         perror("sysctl");
     }
     
-    strncpy(brand, final, 128);
+
+    regex reg("\\(TM\\)|\\(R\\)");
+
+    if (regex_search(final, reg)) {
+        brand = strdup(regex_replace(final, reg, "").c_str());
+    } else {
+        strncpy(brand, final, 128);
+    }
+
     return brand;
 }
 
