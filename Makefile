@@ -2,14 +2,14 @@ FILES := main.cpp functions.cpp
 
 ifeq ($(OS),Windows_NT)
 	OUTPUT := /Fericey.exe 
-	CCFLAGS += $(FILES) windows.cpp
+	CCFLAGS += /EHsc $(FILES) windows.cpp
 	CC = cl
 else
 	CCFLAGS += -w
 	OUTPUT += -o
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S),Linux)
-		CCFLAGS += -lX11 $(FILES) linux.cpp
+		CCFLAGS += -lX11 -std=c++11 $(FILES) linux.cpp
 		OUTPUT += "ricey"
 		CC = g++
 	endif
@@ -20,7 +20,7 @@ else
 		CCFLAGS += -framework AppKit -framework CoreGraphics -framework CoreServices $(FILES) osx.cpp
 	endif
 	ifneq (,$(findstring BSD,$(UNAME_S)))
-		CCFLAGS += -lX11 -lmemstat $(FILES) bsd.cpp
+		CCFLAGS += -lX11 -std=c++11 -lmemstat $(FILES) bsd.cpp
 		OUTPUT += "ricey"
 		CC = g++49
 	endif
