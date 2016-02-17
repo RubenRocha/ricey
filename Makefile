@@ -4,6 +4,8 @@ ifeq ($(OS),Windows_NT)
 	OUTPUT := /Fericey.exe 
 	CCFLAGS += /EHsc $(FILES) windows.cpp
 	CC = cl
+	MFLAGS := -nologo -manifest ricey.manifest -outputresource:ricey.exe;\#1
+	MT := mt
 else
 	CCFLAGS += -w
 	OUTPUT += -o
@@ -29,3 +31,4 @@ endif
 all:
 	$(EXTRA_SHIZ)
 	$(CC) $(CCFLAGS) $(OUTPUT)
+	$(MT) $(MFLAGS)
